@@ -1,12 +1,14 @@
-import { LOOP_STEPS } from '../data/site'
+import { LOOP_CN, LOOP_CHAIN, LOOP_STEPS } from '../data/site'
 
 export function LoopPage() {
   return (
     <>
       <header className="page-banner">
         <div className="eyebrow">LOOP</div>
-        <h1>五步闭环 · 可讲解的主链路</h1>
-        <p>资料识别 → 考点地图 → 诊断 → 判分 → 15 分钟补练；记忆续接写回下一轮。</p>
+        <h1>{LOOP_CN}环节闭环 · 可讲解的主链路</h1>
+        <p>
+          {LOOP_CHAIN}；同一套 KP 编号贯穿始终，薄弱点写回档案，下一轮优先续接。
+        </p>
       </header>
       <div className="steps">
         {LOOP_STEPS.map((s) => (

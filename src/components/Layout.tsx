@@ -1,8 +1,8 @@
 import { Link, NavLink, Outlet } from 'react-router-dom'
-import { SITE } from '../data/site'
+import { CUP, SITE } from '../data/site'
+import { Opener, replayOpener } from './Opener'
 import {
   IconBiz,
-  IconGithub,
   IconHome,
   IconLoop,
   IconPlay,
@@ -54,16 +54,22 @@ export function Layout() {
                 {label}
               </NavLink>
             ))}
-            <a
-              className="gh-link"
-              href="https://github.com/Sorthark/spark"
-              target="_blank"
-              rel="noreferrer"
-              title="GitHub"
-            >
-              <IconGithub size={16} />
-            </a>
           </nav>
+          {/* 赛事官方标识：星火品牌标 + 星火杯字样。
+              与 nav-links 平级而非嵌套，窄屏时它留在顶行、导航单独成一条横向滚动带。 */}
+          <a
+            className="cup-badge"
+            href={CUP.url}
+            target="_blank"
+            rel="noreferrer"
+            title={`${CUP.full} · 官方参赛作品`}
+          >
+            <img src={CUP.flame} alt="" />
+            <span>
+              <b>星火杯 · {SITE.honor}</b>
+              <small>2026 iFLYTEK</small>
+            </span>
+          </a>
         </div>
       </header>
       <main>
@@ -73,12 +79,37 @@ export function Layout() {
       </main>
       <footer className="footer">
         <div className="footer-inner">
-          <span>
-            {SITE.name} · {SITE.team} · {SITE.cup}
-          </span>
-          <Link to="/try">扫码同款入口 · 立即体验 →</Link>
+          <div className="footer-id">
+            <img
+              className="cup-lockup"
+              src={CUP.lockup}
+              alt="科大讯飞 · 讯飞开放平台 · AI 开发者大赛"
+              loading="lazy"
+            />
+            <span className="footer-meta">
+              {SITE.name} · {SITE.team} · {SITE.cup} · {SITE.honor}
+            </span>
+          </div>
+          <div className="footer-links">
+            <button
+              type="button"
+              className="footer-replay"
+              onClick={() => {
+                window.scrollTo({ top: 0 })
+                replayOpener()
+              }}
+            >
+              重播开场
+            </button>
+            <a href="https://github.com/Sorthark/spark" target="_blank" rel="noreferrer">
+              代码仓库
+            </a>
+            <Link to="/try">扫码同款入口 · 立即体验 →</Link>
+          </div>
         </div>
       </footer>
+      {/* 开场序列：每个会话只播一次，降低动效偏好下自动跳过 */}
+      <Opener />
     </div>
   )
 }

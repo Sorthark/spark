@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import { DEMO_VIDEOS } from '../data/site'
-import { IconVideo } from '../components/Icons'
+import { DEMO_VIDEOS, WALKTHROUGH } from '../data/site'
+import { IconPlay, IconVideo } from '../components/Icons'
 
 export function DemoPage() {
   return (
@@ -9,7 +9,8 @@ export function DemoPage() {
         <div className="eyebrow">DEMO</div>
         <h1>实跑证据</h1>
         <p>
-          参赛材料三语实机演示已抽帧上线：点进「视频」页可切换语种与镜头；完整 MP4 体积大，站点以截图为准。
+          三语实机录屏已抽帧上线：点进「演示」页可切换语种与镜头。完整录屏体积大，站点以截图呈现真实输出，
+          逐段讲解见讲解视频。
         </p>
       </header>
 
@@ -24,19 +25,30 @@ export function DemoPage() {
             </div>
             <h3>{v.title}</h3>
             <p>{v.desc}</p>
+            <div className="scene-tag">{v.scene}</div>
             <div className="meta">查看截图 →</div>
           </Link>
         ))}
       </div>
 
-      <ul className="list" style={{ marginTop: 16 }}>
-        <li>
-          <strong>同源材料</strong>
-          <div style={{ marginTop: 6, color: 'var(--muted)', fontSize: 14 }}>
-            全国20 / 求针对提交包 / 03-演示材料：中文 · 英语 · 马来语演示视频（站点展示为抽帧截图）
-          </div>
-        </li>
-      </ul>
+      <Link className="walk-banner" to="/video?tab=walk">
+        <span className="walk-banner-cover" aria-hidden>
+          <img src={WALKTHROUGH.poster} alt="" loading="lazy" />
+          <span className="walk-banner-play">
+            <IconPlay size={20} />
+          </span>
+        </span>
+        <span className="walk-banner-body">
+          <span className="eyebrow">
+            <IconVideo size={14} /> WALKTHROUGH
+          </span>
+          <strong>{WALKTHROUGH.title}</strong>
+          <span className="walk-banner-desc">{WALKTHROUGH.desc}</span>
+          <span className="walk-banner-meta">
+            {WALKTHROUGH.duration} · 共 {WALKTHROUGH.chapters.length} 章 · 点此进入 →
+          </span>
+        </span>
+      </Link>
     </>
   )
 }

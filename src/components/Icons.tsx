@@ -26,6 +26,15 @@ export function IconVideo({ size = 18, className }: IconProps) {
   )
 }
 
+export function IconFilm({ size = 18, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden>
+      <rect {...stroke} x="2.5" y="5" width="19" height="14" rx="2" />
+      <path {...stroke} d="M7.5 5v14M16.5 5v14M2.5 9.5h5M2.5 14.5h5M16.5 9.5h5M16.5 14.5h5" />
+    </svg>
+  )
+}
+
 export function IconPlay({ size = 18, className }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden>
@@ -89,13 +98,21 @@ export function IconTeam({ size = 18, className }: IconProps) {
   )
 }
 
-export function IconGithub({ size = 18, className }: IconProps) {
+export function IconLayers({ size = 18, className }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden>
-      <path
-        fill="currentColor"
-        d="M12 2C6.48 2 2 6.58 2 12.26c0 4.52 2.87 8.35 6.84 9.7.5.1.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.62-3.37-1.37-3.37-1.37-.46-1.2-1.12-1.52-1.12-1.52-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.58 2.36 1.12 2.94.86.09-.67.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.08 0-1.12.39-2.04 1.03-2.76-.1-.26-.45-1.32.1-2.75 0 0 .84-.28 2.75 1.05A9.3 9.3 0 0 1 12 6.9c.85 0 1.71.12 2.51.35 1.9-1.33 2.74-1.05 2.74-1.05.55 1.43.2 2.49.1 2.75.64.72 1.03 1.64 1.03 2.76 0 3.95-2.34 4.81-4.57 5.07.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .26.18.59.69.48A10.03 10.03 0 0 0 22 12.26C22 6.58 17.52 2 12 2z"
-      />
+      <path {...stroke} d="M12 3l9 5-9 5-9-5 9-5z" />
+      <path {...stroke} d="M3 13l9 5 9-5" />
+    </svg>
+  )
+}
+
+export function IconSpark({ size = 18, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden>
+      <path {...stroke} d="M12 3v4M12 17v4M3 12h4M17 12h4" />
+      <path {...stroke} d="M6.3 6.3l2.8 2.8M14.9 14.9l2.8 2.8M17.7 6.3l-2.8 2.8M9.1 14.9l-2.8 2.8" />
+      <circle {...stroke} cx="12" cy="12" r="2.4" />
     </svg>
   )
 }

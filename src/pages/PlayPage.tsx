@@ -1,16 +1,17 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { AGENT_URL, PLAY_CARDS, PLAY_ORDER } from '../data/site'
+import { AGENT_URL, LOOP_CHAIN_EN, LOOP_CN, PLAY_CARDS, PLAY_ORDER } from '../data/site'
 import { IconCpu, IconPlay, IconZap } from '../components/Icons'
 
 type Phase = 'boot' | 'swarm' | 'link' | 'win'
 
+/** 五大痛点 · 口径对齐答辩稿 V6 第 03 页（资料分散 / 重点不明 / 缺少诊断 / 无法续接 / 语言障碍） */
 const PAINS = [
   { id: 'scatter', label: '资料分散' },
   { id: 'priority', label: '重点不明' },
   { id: 'nodiag', label: '缺少诊断' },
-  { id: 'nofeed', label: '没有反馈' },
-  { id: 'noise', label: '盲目刷题' },
+  { id: 'resume', label: '无法续接' },
+  { id: 'lang', label: '语言障碍' },
 ]
 
 function shuffle<T>(arr: T[]): T[] {
@@ -185,7 +186,7 @@ export function PlayPage() {
           <div>
             <div className="eyebrow">SYSTEM INIT</div>
             <h2>正在装载课程资料通道…</h2>
-            <p className="muted">OCR · KP Map · Diagnosis · Grade · Drill</p>
+            <p className="muted">{LOOP_CHAIN_EN}</p>
             <div className="boot-bar">
               <i style={{ width: `${bootPct}%` }} />
             </div>
@@ -257,7 +258,7 @@ export function PlayPage() {
           <Confetti />
           <div className="eyebrow">MISSION COMPLETE</div>
           <h2>闭环已点亮 · 可以上真机</h2>
-          <p>痛点已锁定，五步链路已连通。把本人资料丢进星辰 Agent，跑同一套闭环。</p>
+          <p>痛点已锁定，{LOOP_CN}环节链路已连通。把本人资料丢进星辰 Agent，跑同一套闭环。</p>
           <div className="cta-row">
             <a className="btn btn-primary" href={AGENT_URL} target="_blank" rel="noreferrer">
               <IconZap size={16} /> 打开星辰 Agent

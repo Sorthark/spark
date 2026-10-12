@@ -15,9 +15,25 @@ export function BusinessPage() {
             <div className="eyebrow">{t.name}</div>
             <h3 style={{ marginTop: 8 }}>{t.who}</h3>
             <p>{t.offer}</p>
+            <div className="scene-tag" style={{ marginTop: 10 }}>
+              {t.tag}
+            </div>
           </article>
         ))}
       </div>
+
+      <div className="band-head" style={{ marginTop: 24 }}>
+        <h2>三层价值</h2>
+        <p>学生价值、教育价值与平台价值——同一个闭环在不同层级的落点。</p>
+      </div>
+      <ol className="pyramid">
+        {BUSINESS.pyramid.map((p) => (
+          <li key={p.tier}>
+            <strong>{p.tier}</strong>
+            <span>{p.desc}</span>
+          </li>
+        ))}
+      </ol>
 
       <ul className="list" style={{ marginTop: 8 }}>
         <li>

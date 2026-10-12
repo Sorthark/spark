@@ -3,13 +3,14 @@
 本站是静态网页，没有账号登录系统。你要的是：**任何人用浏览器打开一个 https 链接**，而不是 `127.0.0.1`。
 
 当前已配置：`base` / `basename` = `/spark/`  
-上线后地址形态：
+
+**已上线正式地址（海报二维码请用这个）：**
 
 ```text
-https://<你的GitHub用户名>.github.io/spark/
+https://www.moirark.com/spark/
 ```
 
-海报二维码就印这个地址。
+备用（GitHub 默认域，若自定义域异常时可查）：`https://sorthark.github.io/spark/`
 
 ---
 
