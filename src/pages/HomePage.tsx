@@ -18,7 +18,7 @@ import {
 
 const homeNav = [
   { to: '/loop', label: '五步闭环', Icon: IconLoop },
-  { to: '/video', label: '视频讲解', Icon: IconVideo },
+  { to: '/video', label: '演示截图', Icon: IconVideo },
   { to: '/play', label: '闯关体验', Icon: IconPlay },
   { to: '/features', label: '产品功能', Icon: IconCpu },
   { to: '/business', label: '商业模式', Icon: IconBiz },
@@ -54,7 +54,7 @@ export function HomePage() {
               <IconPlay size={16} /> 动态闯关
             </Link>
             <Link className="btn btn-ghost" to="/video">
-              <IconVideo size={16} /> 视频讲解
+              <IconVideo size={16} /> 演示截图
             </Link>
           </div>
         </div>

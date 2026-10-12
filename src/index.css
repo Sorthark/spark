@@ -392,8 +392,60 @@ button.btn {
   display: block;
   background: #000;
 }
-.video-stage.real {
+.video-stage.real,
+.video-stage.shot {
   aspect-ratio: 16 / 9;
+}
+.video-stage.shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  background: #0c2340;
+}
+.shot-rail {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
+.shot-thumb {
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 0;
+  cursor: pointer;
+  background: #0c2340;
+  aspect-ratio: 16 / 9;
+}
+.shot-thumb.active {
+  border-color: #2eb7ff;
+  box-shadow: 0 0 0 2px rgba(46, 183, 255, 0.25);
+}
+.shot-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+.demo-shot-grid .demo-shot-card {
+  padding-top: 0;
+  overflow: hidden;
+}
+.demo-shot-cover {
+  margin: 0 -18px 12px;
+  aspect-ratio: 16 / 9;
+  background: #0c2340;
+  overflow: hidden;
+}
+.demo-shot-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
 }
 .lang-tabs {
   display: flex;

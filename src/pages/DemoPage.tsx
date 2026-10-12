@@ -9,19 +9,22 @@ export function DemoPage() {
         <div className="eyebrow">DEMO</div>
         <h1>实跑证据</h1>
         <p>
-          参赛材料已提供中 / 英 / 马来三语实机演示视频。优先看视频回放；截图仍可继续补强论文式展板。
+          参赛材料三语实机演示已抽帧上线：点进「视频」页可切换语种与镜头；完整 MP4 体积大，站点以截图为准。
         </p>
       </header>
 
-      <div className="grid-cards">
+      <div className="grid-cards demo-shot-grid">
         {DEMO_VIDEOS.map((v) => (
-          <Link className="card hover-lift" to="/video" key={v.id}>
+          <Link className="card hover-lift demo-shot-card" to="/video" key={v.id}>
+            <div className="demo-shot-cover">
+              <img src={v.poster} alt="" loading="lazy" />
+            </div>
             <div className="eyebrow">
               <IconVideo size={14} /> {v.label}
             </div>
             <h3>{v.title}</h3>
             <p>{v.desc}</p>
-            <div className="meta">{v.src ? '打开播放器 →' : '待同步 →'}</div>
+            <div className="meta">查看截图 →</div>
           </Link>
         ))}
       </div>
@@ -30,13 +33,7 @@ export function DemoPage() {
         <li>
           <strong>同源材料</strong>
           <div style={{ marginTop: 6, color: 'var(--muted)', fontSize: 14 }}>
-            全国20 / 求针对提交包 / 03-演示材料：中文演示视频 · 英语演示视频 · 马来语演示视频
-          </div>
-        </li>
-        <li>
-          <strong>仍建议补充的静态截图</strong>
-          <div style={{ marginTop: 6, color: 'var(--muted)', fontSize: 14 }}>
-            5 题判分、15 分钟补练、记忆续接、资料不足拒答——便于海报与 PPT 定格引用。
+            全国20 / 求针对提交包 / 03-演示材料：中文 · 英语 · 马来语演示视频（站点展示为抽帧截图）
           </div>
         </li>
       </ul>

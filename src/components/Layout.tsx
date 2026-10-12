@@ -15,7 +15,7 @@ import {
 const links = [
   { to: '/', label: '首页', end: true, Icon: IconHome },
   { to: '/loop', label: '闭环', Icon: IconLoop },
-  { to: '/video', label: '视频', Icon: IconVideo },
+  { to: '/video', label: '演示', Icon: IconVideo },
   { to: '/play', label: '闯关', Icon: IconPlay },
   { to: '/business', label: '商业', Icon: IconBiz },
   { to: '/community', label: '社群', Icon: IconUsers },

@@ -53,10 +53,11 @@ export const TEAM = {
 }
 
 /**
- * 演示视频：优先用 GitHub Release / CDN 公网地址。
- * 本地开发可把压缩后的 mp4 放到 public/videos/ 并改用相对路径。
+ * 演示材料：完整 MP4 体积过大，站点优先挂载实机截图（从 03-演示材料 抽帧）。
  * 源文件目录：全国20/.../03-演示材料/
  */
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
+
 export type DemoLang = 'zh' | 'en' | 'ms'
 
 export type DemoVideo = {
@@ -64,9 +65,12 @@ export type DemoVideo = {
   label: string
   title: string
   desc: string
-  /** 空字符串 = 尚未同步到可访问地址 */
+  /** 可选完整视频；空 = 仅截图 */
   src: string
-  poster?: string
+  /** 主海报截图 */
+  poster: string
+  /** 同语种多帧实机截图 */
+  shots: string[]
   hint: string
 }
 
@@ -75,34 +79,40 @@ export const DEMO_VIDEOS: DemoVideo[] = [
     id: 'zh',
     label: '中文',
     title: '中文实机演示',
-    desc: '资料输入 → 考点地图 → 诊断补练主链路（参赛演示材料）。',
-    src: 'https://github.com/Sorthark/spark/releases/download/demo-videos/demo-zh.mp4',
-    hint: '同步自「中文演示视频.mp4」',
+    desc: '资料输入 → 考点地图 → 诊断补练主链路（参赛演示材料抽帧）。',
+    src: '',
+    poster: asset('demo/zh.jpg'),
+    shots: [asset('demo/zh-1.jpg'), asset('demo/zh-2.jpg'), asset('demo/zh-3.jpg')],
+    hint: '截图同步自「中文演示视频.mp4」',
   },
   {
     id: 'en',
     label: 'English',
     title: 'English live demo',
     desc: 'Same workflow, English I/O — multilingual reuse of one agent pipeline.',
-    src: 'https://github.com/Sorthark/spark/releases/download/demo-videos/demo-en.mp4',
-    hint: 'Synced from English demo MP4',
+    src: '',
+    poster: asset('demo/en.jpg'),
+    shots: [asset('demo/en-1.jpg'), asset('demo/en-2.jpg'), asset('demo/en-3.jpg')],
+    hint: 'Frames from English demo MP4',
   },
   {
     id: 'ms',
     label: 'Bahasa Melayu',
     title: '马来语实机演示',
-    desc: '马来语档案 / 导图 / 策略输出样例，与中英共用工作流。',
-    src: 'https://github.com/Sorthark/spark/releases/download/demo-videos/demo-ms.mp4',
-    hint: '源文件较大，若暂时 404 说明 Release 仍在上传',
+    desc: '马来语档案 / 诊断题输出样例，与中英共用工作流。',
+    src: '',
+    poster: asset('demo/ms.jpg'),
+    shots: [asset('demo/ms-1.jpg'), asset('demo/ms-2.jpg'), asset('demo/ms-3.jpg')],
+    hint: '截图同步自「马来语演示视频.mp4」',
   },
 ]
 
 /** @deprecated 保留兼容；页面已改用 DEMO_VIDEOS */
 export const VIDEO = {
-  title: '真实演示视频',
+  title: '真实演示截图',
   status: 'ready' as 'coming' | 'ready',
   embedUrl: '',
-  note: '中文 / 英语 / 马来语实机演示已从参赛材料同步。',
+  note: '中文 / 英语 / 马来语实机截图已从参赛演示视频抽帧同步。',
 }
 
 export const BUSINESS = {
