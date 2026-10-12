@@ -1,20 +1,36 @@
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import { SITE } from '../data/site'
+import {
+  IconBiz,
+  IconGithub,
+  IconHome,
+  IconLoop,
+  IconPlay,
+  IconTeam,
+  IconUsers,
+  IconVideo,
+  IconZap,
+} from './Icons'
 
 const links = [
-  { to: '/', label: '首页', end: true },
-  { to: '/loop', label: '闭环' },
-  { to: '/video', label: '视频' },
-  { to: '/play', label: '闯关' },
-  { to: '/business', label: '商业' },
-  { to: '/community', label: '社群' },
-  { to: '/try', label: '体验' },
-  { to: '/team', label: '团队' },
+  { to: '/', label: '首页', end: true, Icon: IconHome },
+  { to: '/loop', label: '闭环', Icon: IconLoop },
+  { to: '/video', label: '视频', Icon: IconVideo },
+  { to: '/play', label: '闯关', Icon: IconPlay },
+  { to: '/business', label: '商业', Icon: IconBiz },
+  { to: '/community', label: '社群', Icon: IconUsers },
+  { to: '/try', label: '体验', Icon: IconZap },
+  { to: '/team', label: '团队', Icon: IconTeam },
 ]
 
 export function Layout() {
   return (
     <div className="site">
+      <div className="tech-bg" aria-hidden>
+        <div className="tech-grid" />
+        <div className="tech-orb a" />
+        <div className="tech-orb b" />
+      </div>
       <header className="nav">
         <div className="nav-inner">
           <Link to="/" className="brand">
@@ -27,16 +43,26 @@ export function Layout() {
             </span>
           </Link>
           <nav className="nav-links">
-            {links.map((item) => (
+            {links.map(({ to, label, end, Icon }) => (
               <NavLink
-                key={item.to}
-                to={item.to}
-                end={item.end}
+                key={to}
+                to={to}
+                end={end}
                 className={({ isActive }) => (isActive ? 'active' : undefined)}
               >
-                {item.label}
+                <Icon size={14} />
+                {label}
               </NavLink>
             ))}
+            <a
+              className="gh-link"
+              href="https://github.com/Sorthark/spark"
+              target="_blank"
+              rel="noreferrer"
+              title="GitHub"
+            >
+              <IconGithub size={16} />
+            </a>
           </nav>
         </div>
       </header>
