@@ -51,3 +51,57 @@ export const TEAM = {
   members:
     '刘怡静 / 陶文慧 / 聂铭 / 沈亦菲（南通理工）· 杨洋（英迪国际）',
 }
+
+/** 视频页：有成片后把 VIDEO_EMBED_URL 换成 B 站/腾讯视频等嵌入或分享链 */
+export const VIDEO = {
+  title: '动画讲解 · 预留位',
+  status: 'coming' as 'coming' | 'ready',
+  embedUrl: '',
+  note: '成片将展示五步闭环与 Agent 演示。当前可先浏览闭环页，或直接体验智能体。',
+}
+
+export const BUSINESS = {
+  summary:
+    '当前验证重点在「本人资料驱动的学习闭环」；服务分层为下一步推进，不做空头营收承诺。',
+  tiers: [
+    {
+      name: '免费获客层',
+      who: '国内本科生期末突击',
+      offer: '核心闭环免费体验，沉淀学习画像与口碑',
+    },
+    {
+      name: '个人会员层',
+      who: '留学 / 中外合作 / 高强度冲刺',
+      offer: '更长记忆续接、多语言与冲刺计划增强',
+    },
+    {
+      name: '院校服务层',
+      who: '自考 / 转专业 / 跨考 / 教务合作',
+      offer: '课程包与学情汇总（规划中）',
+    },
+  ],
+  wedge: '极简输入：本人课程资料 + 剩余天数',
+  channels: ['海报扫码进作品站', '星辰 Agent 直达体验', '答辩演示与讲解页互链'],
+}
+
+export const COMMUNITY = {
+  status: 'planned' as const,
+  pitch: '同课程研讨：按课程建轻量讨论区，分享考点地图与薄弱点（不替代教师答疑）。',
+  nearTerm: [
+    '收集同课程用户意愿（问卷 / 展场登记）',
+    '试点「考点地图分享」只读卡片',
+    '合规与内容审核方案后再开放发言',
+  ],
+  disclaimer: '本站为作品展示，社群功能尚未上线，敬请期待。',
+}
+
+/** 小游戏：正确顺序的五步 id */
+export const PLAY_ORDER = ['ocr', 'map', 'quiz', 'grade', 'drill'] as const
+
+export const PLAY_CARDS: { id: (typeof PLAY_ORDER)[number]; label: string }[] = [
+  { id: 'quiz', label: '5 题诊断' },
+  { id: 'ocr', label: 'OCR 识资料' },
+  { id: 'drill', label: '15 分钟补练' },
+  { id: 'grade', label: '自动判分' },
+  { id: 'map', label: 'KP 考点地图' },
+]

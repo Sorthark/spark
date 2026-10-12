@@ -8,6 +8,10 @@ import { DemoPage } from './pages/DemoPage'
 import { InnovationPage } from './pages/InnovationPage'
 import { TryPage } from './pages/TryPage'
 import { TeamPage } from './pages/TeamPage'
+import { VideoPage } from './pages/VideoPage'
+import { BusinessPage } from './pages/BusinessPage'
+import { CommunityPage } from './pages/CommunityPage'
+import { PlayPage } from './pages/PlayPage'
 
 export default function App() {
   return (
@@ -20,6 +24,10 @@ export default function App() {
           <Route path="tech" element={<TechPage />} />
           <Route path="demo" element={<DemoPage />} />
           <Route path="innovation" element={<InnovationPage />} />
+          <Route path="video" element={<VideoPage />} />
+          <Route path="play" element={<PlayPage />} />
+          <Route path="business" element={<BusinessPage />} />
+          <Route path="community" element={<CommunityPage />} />
           <Route path="try" element={<TryPage />} />
           <Route path="team" element={<TeamPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />

@@ -70,6 +70,10 @@ npm run preview
 | `/spark/innovation` | `InnovationPage.tsx` | 创新点 |
 | `/spark/try` | `TryPage.tsx` | 大按钮跳转星辰 Agent |
 | `/spark/team` | `TeamPage.tsx` | 求针对团队 |
+| `/spark/video` | `VideoPage.tsx` | 讲解视频预留（`VIDEO` in site.ts） |
+| `/spark/play` | `PlayPage.tsx` | 五步排序小游戏 → 通关进 Agent |
+| `/spark/business` | `BusinessPage.tsx` | 商业分层与营销触点 |
+| `/spark/community` | `CommunityPage.tsx` | 同课程研讨预留（不做真社群） |
 
 壳与导航：`src/components/Layout.tsx`  
 路由表：`src/App.tsx`  

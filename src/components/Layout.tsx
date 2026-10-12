@@ -4,10 +4,10 @@ import { SITE } from '../data/site'
 const links = [
   { to: '/', label: '首页', end: true },
   { to: '/loop', label: '闭环' },
-  { to: '/features', label: '功能' },
-  { to: '/tech', label: '技术' },
-  { to: '/demo', label: '实跑' },
-  { to: '/innovation', label: '创新' },
+  { to: '/video', label: '视频' },
+  { to: '/play', label: '闯关' },
+  { to: '/business', label: '商业' },
+  { to: '/community', label: '社群' },
   { to: '/try', label: '体验' },
   { to: '/team', label: '团队' },
 ]

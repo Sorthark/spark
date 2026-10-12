@@ -9,10 +9,13 @@ import {
 
 const homeNav = [
   { to: '/loop', label: '五步闭环' },
+  { to: '/video', label: '视频讲解' },
+  { to: '/play', label: '闯关体验' },
   { to: '/features', label: '产品功能' },
   { to: '/tech', label: '技术架构' },
   { to: '/demo', label: '实跑证据' },
-  { to: '/innovation', label: '创新点' },
+  { to: '/business', label: '商业模式' },
+  { to: '/community', label: '社群预留' },
   { to: '/try', label: '立即体验' },
   { to: '/team', label: '团队' },
 ]
@@ -36,17 +39,24 @@ export function HomePage() {
             <Link className="btn btn-primary" to="/try">
               立即体验智能体
             </Link>
-            <Link className="btn btn-ghost" to="/loop">
-              先看五步闭环
+            <Link className="btn btn-ghost" to="/play">
+              先闯一关
+            </Link>
+            <Link className="btn btn-ghost" to="/video">
+              视频讲解
             </Link>
           </div>
         </div>
         <div className="card">
           <div className="eyebrow">AT A GLANCE</div>
-          <h3 style={{ marginTop: 8 }}>为什么是作品站，不是单页？</h3>
+          <h3 style={{ marginTop: 8 }}>扫码后三分钟路径</h3>
           <p style={{ marginTop: 8 }}>
-            对齐茶叶国际赛站结构：首页总览 + 子路径专题，方便展场扫码后按兴趣深入，也方便答辩材料互链。
+            看闭环 / 视频位 → 玩一关排出五步 → 通关进 Agent。商业与社群页服务答辩追问，不抢主线。
           </p>
+          <Link className="meta" to="/business">
+            商业分层说明 →
+          </Link>
+          <br />
           <a className="meta" href={AGENT_URL} target="_blank" rel="noreferrer">
             星辰 Agent 直达 →
           </a>
