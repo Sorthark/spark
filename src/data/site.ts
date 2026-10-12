@@ -52,12 +52,57 @@ export const TEAM = {
     '刘怡静 / 陶文慧 / 聂铭 / 沈亦菲（南通理工）· 杨洋（英迪国际）',
 }
 
-/** 视频页：有成片后把 VIDEO_EMBED_URL 换成 B 站/腾讯视频等嵌入或分享链 */
+/**
+ * 演示视频：优先用 GitHub Release / CDN 公网地址。
+ * 本地开发可把压缩后的 mp4 放到 public/videos/ 并改用相对路径。
+ * 源文件目录：全国20/.../03-演示材料/
+ */
+export type DemoLang = 'zh' | 'en' | 'ms'
+
+export type DemoVideo = {
+  id: DemoLang
+  label: string
+  title: string
+  desc: string
+  /** 空字符串 = 尚未同步到可访问地址 */
+  src: string
+  poster?: string
+  hint: string
+}
+
+export const DEMO_VIDEOS: DemoVideo[] = [
+  {
+    id: 'zh',
+    label: '中文',
+    title: '中文实机演示',
+    desc: '资料输入 → 考点地图 → 诊断补练主链路（参赛演示材料）。',
+    src: 'https://github.com/Sorthark/spark/releases/download/demo-videos/demo-zh.mp4',
+    hint: '同步自「中文演示视频.mp4」',
+  },
+  {
+    id: 'en',
+    label: 'English',
+    title: 'English live demo',
+    desc: 'Same workflow, English I/O — multilingual reuse of one agent pipeline.',
+    src: 'https://github.com/Sorthark/spark/releases/download/demo-videos/demo-en.mp4',
+    hint: 'Synced from English demo MP4',
+  },
+  {
+    id: 'ms',
+    label: 'Bahasa Melayu',
+    title: '马来语实机演示',
+    desc: '马来语档案 / 导图 / 策略输出样例，与中英共用工作流。',
+    src: 'https://github.com/Sorthark/spark/releases/download/demo-videos/demo-ms.mp4',
+    hint: '源文件较大，若暂时 404 说明 Release 仍在上传',
+  },
+]
+
+/** @deprecated 保留兼容；页面已改用 DEMO_VIDEOS */
 export const VIDEO = {
-  title: '动画讲解 · 预留位',
-  status: 'coming' as 'coming' | 'ready',
+  title: '真实演示视频',
+  status: 'ready' as 'coming' | 'ready',
   embedUrl: '',
-  note: '成片将展示五步闭环与 Agent 演示。当前可先浏览闭环页，或直接体验智能体。',
+  note: '中文 / 英语 / 马来语实机演示已从参赛材料同步。',
 }
 
 export const BUSINESS = {

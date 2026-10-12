@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local video staging / large demo assets (use GitHub Releases)
+_video_stage/
+public/videos/*.mp4
+.env
+.env.*
+
