@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { AGENT_URL, DEMO_VIDEOS, WALKTHROUGH, type DemoLang } from '../data/site'
+import { useLocale } from '../locale'
 import { IconFilm, IconPlay, IconVideo, IconZap } from '../components/Icons'
 
 type Mode = 'shots' | 'walk'
@@ -20,17 +21,19 @@ export function VideoPage() {
   const [params, setParams] = useSearchParams()
   const mode: Mode = params.get('tab') === 'walk' ? 'walk' : 'shots'
 
-  const available = useMemo(() => DEMO_VIDEOS.filter((v) => Boolean(v.poster)), [])
-  const [lang, setLang] = useState<DemoLang>(available[0]?.id ?? 'zh')
+  const { lang, setLang } = useLocale()
   const [shot, setShot] = useState(0)
 
   const current = DEMO_VIDEOS.find((v) => v.id === lang) ?? DEMO_VIDEOS[0]
   const gallery = current.shots?.length ? current.shots : [current.poster]
   const activeShot = gallery[Math.min(shot, gallery.length - 1)]
 
+  useEffect(() => {
+    setShot(0)
+  }, [lang])
+
   const switchLang = (id: DemoLang) => {
     setLang(id)
-    setShot(0)
   }
 
   const setMode = (next: Mode) => {

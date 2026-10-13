@@ -36,42 +36,60 @@ export const LOOP_STEPS = [
     n: '01',
     title: '资料识别',
     en: 'Intake',
+    ms: 'Imbas Bahan',
     desc: '文本 / 图片 / PDF 统一 OCR 与清洗去重，先判断资料是否够用。',
+    descEn: 'Text, images, and PDFs go through one OCR and dedupe pass, then the system checks whether the material is enough.',
+    descMs: 'Teks, imej dan PDF melalui OCR dan nyahduplikasi, kemudian sistem semak sama ada bahan mencukupi.',
   },
   {
     id: 'map',
     n: '02',
     title: '考点地图',
     en: 'KP Map',
+    ms: 'Peta KP',
     desc: '3–10 个考点按必考 / 常考 / 了解分级，逐条标注资料依据。',
+    descEn: 'Three to ten key points, graded must-know, common, or overview, each tied to a source in the notes.',
+    descMs: 'Tiga hingga sepuluh topik, digred wajib, biasa atau gambaran, setiap satu merujuk nota asal.',
   },
   {
     id: 'lecture',
     n: '03',
     title: '限时精讲',
     en: 'Lecture',
+    ms: 'Kuliah Ringkas',
     desc: '按剩余天数定范围：≤1 天只讲必考，2–3 天兼顾常考，≥4 天保留完整框架。',
+    descEn: 'Scope follows the days left: one day or less covers must-know only, two to three days add common topics, four or more keep the full frame.',
+    descMs: 'Skop ikut baki hari: sehari atau kurang hanya topik wajib, dua hingga tiga hari tambah topik biasa, empat hari ke atas kekalkan rangka penuh.',
   },
   {
     id: 'quiz',
     n: '04',
     title: '诊断测验',
     en: 'Quiz',
+    ms: 'Kuiz Diagnostik',
     desc: '5 题（3 单选 + 2 简答或计算），逐题作答并采集错因。',
+    descEn: 'Five questions — three multiple choice and two short-answer or calculation — with a reason captured for each miss.',
+    descMs: 'Lima soalan — tiga aneka pilihan dan dua jawapan pendek atau kiraan — setiap kesilapan ada sebab.',
   },
   {
     id: 'grade',
     n: '05',
     title: '判分补练',
     en: 'Grade',
+    ms: 'Nilai & Latih',
     desc: '模型逐题判分、代码二次核算总分，据此生成 15 分钟三阶段补练。',
+    descEn: 'The model scores each item, code checks the total, then a 15-minute three-part drill is built from that.',
+    descMs: 'Model menanda setiap soalan, kod semak jumlah markah, kemudian bina latih tubi 15 minit dalam tiga peringkat.',
   },
   {
     id: 'memory',
     n: '06',
     title: '记忆续接',
     en: 'Memory',
+    ms: 'Sambung Ingatan',
     desc: '薄弱 KP 写入长期记忆，下轮进入同一课程优先调用，不重复已掌握内容。',
+    descEn: 'Weak key points go into long-term memory and come back first the next time you open the same course.',
+    descMs: 'Topik lemah ditulis ke ingatan jangka panjang dan dipanggil dahulu pada pusingan seterusnya untuk kursus yang sama.',
   },
 ]
 
@@ -89,6 +107,61 @@ export const LOOP_CHAIN = LOOP_STEPS.map((s) => s.title).join(' → ')
 
 /** 主链路英文标签，供加载态 / HUD 使用，与 LOOP_STEPS 同序同源 */
 export const LOOP_CHAIN_EN = LOOP_STEPS.map((s) => s.en).join(' · ')
+
+export type SiteLang = 'zh' | 'en' | 'ms'
+
+type LoopStep = (typeof LOOP_STEPS)[number]
+
+/** 环节标题。中文仍是 title，英文沿用 en，马来语为 ms。 */
+export function stepTitle(step: LoopStep, lang: SiteLang) {
+  if (lang === 'en') return step.en
+  if (lang === 'ms') return step.ms
+  return step.title
+}
+
+export function stepDesc(step: LoopStep, lang: SiteLang) {
+  if (lang === 'en') return step.descEn
+  if (lang === 'ms') return step.descMs
+  return step.desc
+}
+
+/** 当前语种下的主链路全文 */
+export function loopChain(lang: SiteLang) {
+  return LOOP_STEPS.map((step) => stepTitle(step, lang)).join(' → ')
+}
+
+/** 语言栏会改写的短句。作品名、队名、资质不在这里。 */
+export const CHROME = {
+  zh: {
+    railKicker: '主链路 · 六环节',
+    railTitle: '六个环节，一次跑完一轮复习',
+    railReplay: '重播电路',
+    heroSub: (chain: string) => `上传本人笔记、课件与真题，六环节走完一轮：${chain}。`,
+    loopH1: '六环节闭环 · 可讲解的主链路',
+    loopLead: (chain: string) =>
+      `${chain}；同一套 KP 编号贯穿始终，薄弱点写回档案，下一轮优先续接。`,
+  },
+  en: {
+    railKicker: 'Main path · 6 stages',
+    railTitle: 'Six stages, one full review pass',
+    railReplay: 'Replay',
+    heroSub: (chain: string) =>
+      `Upload your own notes, slides, and past papers, then run one pass: ${chain}.`,
+    loopH1: 'Six-stage loop · the path you can walk through',
+    loopLead: (chain: string) =>
+      `${chain}. One set of KP numbers runs through the whole pass; weak points go back into the record and come first next time.`,
+  },
+  ms: {
+    railKicker: 'Laluan utama · 6 peringkat',
+    railTitle: 'Enam peringkat, satu pusingan ulang kaji',
+    railReplay: 'Main semula',
+    heroSub: (chain: string) =>
+      `Muat naik nota, slaid dan kertas lepas sendiri, kemudian satu pusingan: ${chain}.`,
+    loopH1: 'Gelung enam peringkat · laluan yang boleh diterangkan',
+    loopLead: (chain: string) =>
+      `${chain}. Satu set nombor KP sepanjang laluan; topik lemah kembali ke rekod dan diutamakan pada pusingan seterusnya.`,
+  },
+} as const
 
 /** 工作流实测数字 · 答辩稿 V6 第 07 页 */
 export const METRICS = [

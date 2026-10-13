@@ -131,6 +131,41 @@ img { max-width: 100%; display: block; }
   background: rgba(255,255,255,.12);
   opacity: 1;
 }
+/* 演示语种：钉在导航条最左，窄屏横滑时不跟着滚走 */
+.lang-switch {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  padding: 2px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.28);
+  background: rgba(8, 22, 42, .45);
+  gap: 1px;
+}
+.lang-switch button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  line-height: 1;
+  padding: 5px 8px;
+  border-radius: 999px;
+  cursor: pointer;
+  opacity: .72;
+}
+.lang-switch button[aria-pressed='true'] {
+  background: #fff;
+  color: var(--nav);
+  opacity: 1;
+}
+.lang-switch button:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
 /* —— 导航 · 赛事官方标识（星火火焰标 + 星火杯字样） ——
    注：.cup-badge 是 .nav-inner 的直接子元素（不嵌在 .nav-links 里），
    这样窄屏时它能留在顶行，导航另起一条横向滚动带。 */
@@ -199,6 +234,13 @@ img { max-width: 100%; display: block; }
   .nav-links a {
     flex: 0 0 auto;
     padding: 5px 9px;
+  }
+  .lang-switch {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: var(--nav);
+    box-shadow: 10px 0 12px var(--nav);
   }
   .cup-badge {
     margin-left: auto;

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { LOOP_CN, LOOP_STEPS } from '../data/site'
+import { CHROME, LOOP_STEPS, stepDesc, stepTitle } from '../data/site'
+import { useLocale } from '../locale'
 
 /**
  * 闭环电路条：页面载入后依次点亮每个节点，形成一次编排好的开场。
@@ -7,6 +8,8 @@ import { LOOP_CN, LOOP_STEPS } from '../data/site'
  * 节点数、标题、环节数文案全部取自 LOOP_STEPS，不硬编码。
  */
 export function LoopRail() {
+  const { lang } = useLocale()
+  const copy = CHROME[lang]
   const total = LOOP_STEPS.length
   const [lit, setLit] = useState(0)
   const [auto, setAuto] = useState(true)
@@ -33,11 +36,11 @@ export function LoopRail() {
   }
 
   return (
-    <section className="loop-rail-sec" aria-label={`${LOOP_CN}环节闭环`}>
+    <section className="loop-rail-sec" aria-label={copy.railKicker}>
       <div className="rail-head">
         <div>
-          <span className="rail-kicker">主链路 · {LOOP_CN}环节</span>
-          <h2>{LOOP_CN}个环节，一次跑完一轮复习</h2>
+          <span className="rail-kicker">{copy.railKicker}</span>
+          <h2>{copy.railTitle}</h2>
         </div>
         <button
           type="button"
@@ -47,7 +50,7 @@ export function LoopRail() {
             setAuto(true)
           }}
         >
-          重播电路
+          {copy.railReplay}
         </button>
       </div>
 
@@ -58,7 +61,7 @@ export function LoopRail() {
             <li key={s.n} className={state}>
               <button type="button" onClick={() => pick(i)} aria-current={i === focusIndex}>
                 <span className="rail-n">{s.n}</span>
-                <span className="rail-t">{s.title}</span>
+                <span className="rail-t">{stepTitle(s, lang)}</span>
               </button>
               {i < total - 1 && <span className="rail-link" aria-hidden />}
             </li>
@@ -67,8 +70,8 @@ export function LoopRail() {
       </ol>
 
       <p className="rail-desc">
-        <strong>{focus.title}</strong>
-        <span>{focus.desc}</span>
+        <strong>{stepTitle(focus, lang)}</strong>
+        <span>{stepDesc(focus, lang)}</span>
       </p>
     </section>
   )

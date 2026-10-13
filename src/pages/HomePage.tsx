@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
-import { AGENT_URL, DEMO_VIDEOS, FEATURES, LOOP_CN, LOOP_CHAIN, METRICS, PAGE_TOTAL, SITE } from '../data/site'
+import { AGENT_URL, CHROME, DEMO_VIDEOS, FEATURES, loopChain, METRICS, PAGE_TOTAL, SITE } from '../data/site'
+import { useLocale } from '../locale'
 import { DemoWindow } from '../components/DemoWindow'
 import { LoopRail } from '../components/LoopRail'
 import {
@@ -32,7 +33,8 @@ const siteMap = [
 const delay = (ms: number): CSSProperties => ({ '--d': `${ms}ms` }) as CSSProperties
 
 export function HomePage() {
-  const demo = DEMO_VIDEOS[0]
+  const { lang } = useLocale()
+  const demo = DEMO_VIDEOS.find((item) => item.id === lang) ?? DEMO_VIDEOS[0]
   const shots = demo.shots?.length ? demo.shots : [demo.poster]
 
   return (
@@ -70,7 +72,7 @@ export function HomePage() {
               </p>
 
               <p className="rv hv-sub" style={delay(510)}>
-                上传本人笔记、课件与真题，{LOOP_CN}环节走完一轮：{LOOP_CHAIN}。
+                {CHROME[lang].heroSub(loopChain(lang))}
               </p>
 
               <p className="rv hv-byline" style={delay(550)}>

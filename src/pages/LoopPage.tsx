@@ -1,22 +1,25 @@
-import { LOOP_CN, LOOP_CHAIN, LOOP_STEPS } from '../data/site'
+import { CHROME, LOOP_STEPS, loopChain, stepDesc, stepTitle } from '../data/site'
+import { useLocale } from '../locale'
 
 export function LoopPage() {
+  const { lang } = useLocale()
+  const copy = CHROME[lang]
+  const chain = loopChain(lang)
+
   return (
     <>
       <header className="page-banner">
         <div className="eyebrow">LOOP</div>
-        <h1>{LOOP_CN}环节闭环 · 可讲解的主链路</h1>
-        <p>
-          {LOOP_CHAIN}；同一套 KP 编号贯穿始终，薄弱点写回档案，下一轮优先续接。
-        </p>
+        <h1>{copy.loopH1}</h1>
+        <p>{copy.loopLead(chain)}</p>
       </header>
       <div className="steps">
         {LOOP_STEPS.map((s) => (
           <article className="step" key={s.n}>
             <div className="n">{s.n}</div>
             <div>
-              <h3>{s.title}</h3>
-              <p>{s.desc}</p>
+              <h3>{stepTitle(s, lang)}</h3>
+              <p>{stepDesc(s, lang)}</p>
             </div>
           </article>
         ))}

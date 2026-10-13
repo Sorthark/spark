@@ -1,5 +1,6 @@
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import { CUP, SITE } from '../data/site'
+import { LANGS, useLocale } from '../locale'
 import { Opener, replayOpener } from './Opener'
 import {
   IconBiz,
@@ -22,6 +23,8 @@ const links = [
 ]
 
 export function Layout() {
+  const { lang, setLang } = useLocale()
+
   return (
     <div className="site">
       <div className="tech-bg" aria-hidden>
@@ -41,6 +44,18 @@ export function Layout() {
             </span>
           </Link>
           <nav className="nav-links">
+            <div className="lang-switch" role="group" aria-label="语言">
+              {LANGS.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  aria-pressed={lang === item.id}
+                  onClick={() => setLang(item.id)}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
             {links.map(({ to, label, end, Icon }) => (
               <NavLink
                 key={to}
@@ -100,9 +115,6 @@ export function Layout() {
               重播开场
             </button>
             <Link to="/community">社群（规划中）</Link>
-            <a href="https://github.com/Sorthark/spark" target="_blank" rel="noreferrer">
-              代码仓库
-            </a>
             <Link to="/try">扫码同款入口 · 立即体验 →</Link>
           </div>
         </div>
