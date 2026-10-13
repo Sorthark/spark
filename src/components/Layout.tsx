@@ -7,7 +7,6 @@ import {
   IconLoop,
   IconPlay,
   IconTeam,
-  IconUsers,
   IconVideo,
   IconZap,
 } from './Icons'
@@ -18,7 +17,6 @@ const links = [
   { to: '/video', label: '演示', Icon: IconVideo },
   { to: '/play', label: '闯关', Icon: IconPlay },
   { to: '/business', label: '商业', Icon: IconBiz },
-  { to: '/community', label: '社群', Icon: IconUsers },
   { to: '/try', label: '体验', Icon: IconZap },
   { to: '/team', label: '团队', Icon: IconTeam },
 ]
@@ -101,6 +99,7 @@ export function Layout() {
             >
               重播开场
             </button>
+            <Link to="/community">社群（规划中）</Link>
             <a href="https://github.com/Sorthark/spark" target="_blank" rel="noreferrer">
               代码仓库
             </a>

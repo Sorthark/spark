@@ -92,7 +92,7 @@ $env:HTTP_PROXY='http://127.0.0.1:7897'
 | `/spark/try` | `TryPage.tsx` | 跳转星辰 Agent |
 | `/spark/team` | `TeamPage.tsx` | 求针队团队 |
 
-- 导航只挂 8 个主入口（首页 / 闭环 / 演示 / 闯关 / 商业 / 社群 / 体验 / 团队）。
+- 导航挂 7 个主入口（首页 / 闭环 / 演示 / 闯关 / 商业 / 体验 / 团队）。社群仍是规划中说明页，只放页脚，路由 `/community` 保留。
 - 另有 4 页（功能 / 架构 / 证据 / 创新）**只从首页快捷入口进入**，不在顶栏。
 - 壳与导航：`src/components/Layout.tsx`；路由表：`src/App.tsx`。
 
