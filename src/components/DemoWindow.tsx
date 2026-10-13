@@ -7,6 +7,11 @@ type Props = {
   label: string
   /** 底部说明，通常是来源口径 */
   caption?: string
+  /** 标题栏右侧的「运行中」标记 */
+  live?: string
+  /** 第 n 帧的无障碍名称，n 从 1 计 */
+  frameLabel?: (n: number) => string
+  framesLabel?: string
   /** 轮播间隔（毫秒） */
   interval?: number
   className?: string
@@ -20,6 +25,9 @@ export function DemoWindow({
   shots,
   label,
   caption,
+  live = '实机',
+  frameLabel,
+  framesLabel = '演示帧',
   interval = 3200,
   className = '',
 }: Props) {
@@ -59,7 +67,7 @@ export function DemoWindow({
         <span className="demo-label">{label}</span>
         <span className="demo-live">
           <span className="pulse-dot" />
-          实机
+          {live}
         </span>
       </div>
 
@@ -68,7 +76,7 @@ export function DemoWindow({
           <img
             key={src}
             src={src}
-            alt={`${label} 第 ${i + 1} 帧`}
+            alt={frameLabel ? frameLabel(i + 1) : `${label} 第 ${i + 1} 帧`}
             className={i === index ? 'is-on' : ''}
             loading={i === 0 ? 'eager' : 'lazy'}
             decoding="async"
@@ -79,14 +87,14 @@ export function DemoWindow({
       <figcaption className="demo-cap">
         <span className="demo-caption-text">{caption}</span>
         {shots.length > 1 && (
-          <span className="demo-pager" role="tablist" aria-label="演示帧">
+          <span className="demo-pager" role="tablist" aria-label={framesLabel}>
             {shots.map((src, i) => (
               <button
                 key={src}
                 type="button"
                 role="tab"
                 aria-selected={i === index}
-                aria-label={`第 ${i + 1} 帧`}
+                aria-label={frameLabel ? frameLabel(i + 1) : `第 ${i + 1} 帧`}
                 className={i === index ? 'on' : ''}
                 onClick={() => setIndex(i)}
               />

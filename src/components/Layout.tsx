@@ -1,6 +1,7 @@
 import { Link, NavLink, Outlet } from 'react-router-dom'
-import { CUP, SITE } from '../data/site'
+import { CUP, SITE, tx } from '../data/site'
 import { LANGS, useLocale } from '../locale'
+import { UI } from '../ui'
 import { Opener, replayOpener } from './Opener'
 import {
   IconBiz,
@@ -13,13 +14,13 @@ import {
 } from './Icons'
 
 const links = [
-  { to: '/', label: '首页', end: true, Icon: IconHome },
-  { to: '/loop', label: '闭环', Icon: IconLoop },
-  { to: '/video', label: '演示', Icon: IconVideo },
-  { to: '/play', label: '闯关', Icon: IconPlay },
-  { to: '/business', label: '商业', Icon: IconBiz },
-  { to: '/try', label: '体验', Icon: IconZap },
-  { to: '/team', label: '团队', Icon: IconTeam },
+  { to: '/', id: 'home' as const, end: true, Icon: IconHome },
+  { to: '/loop', id: 'loop' as const, Icon: IconLoop },
+  { to: '/video', id: 'video' as const, Icon: IconVideo },
+  { to: '/play', id: 'play' as const, Icon: IconPlay },
+  { to: '/business', id: 'business' as const, Icon: IconBiz },
+  { to: '/try', id: 'try' as const, Icon: IconZap },
+  { to: '/team', id: 'team' as const, Icon: IconTeam },
 ]
 
 export function Layout() {
@@ -56,7 +57,7 @@ export function Layout() {
                 </button>
               ))}
             </div>
-            {links.map(({ to, label, end, Icon }) => (
+            {links.map(({ to, id, end, Icon }) => (
               <NavLink
                 key={to}
                 to={to}
@@ -64,7 +65,7 @@ export function Layout() {
                 className={({ isActive }) => (isActive ? 'active' : undefined)}
               >
                 <Icon size={14} />
-                {label}
+                {tx(lang, UI.nav[id])}
               </NavLink>
             ))}
           </nav>
@@ -79,7 +80,7 @@ export function Layout() {
           >
             <img src={CUP.flame} alt="" />
             <span>
-              <b>星火杯 · {SITE.honor}</b>
+              <b>星火杯 · {tx(lang, UI.honor)}</b>
               <small>2026 iFLYTEK</small>
             </span>
           </a>
@@ -100,7 +101,7 @@ export function Layout() {
               loading="lazy"
             />
             <span className="footer-meta">
-              {SITE.name} · {SITE.team} · {SITE.cup} · {SITE.honor}
+              {SITE.name} · {SITE.team} · {SITE.cup} · {tx(lang, UI.honor)}
             </span>
           </div>
           <div className="footer-links">
@@ -112,10 +113,10 @@ export function Layout() {
                 replayOpener()
               }}
             >
-              重播开场
+              {tx(lang, UI.footer.replay)}
             </button>
-            <Link to="/community">社群（规划中）</Link>
-            <Link to="/try">扫码同款入口 · 立即体验 →</Link>
+            <Link to="/community">{tx(lang, UI.footer.community)}</Link>
+            <Link to="/try">{tx(lang, UI.footer.try)}</Link>
           </div>
         </div>
       </footer>

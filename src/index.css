@@ -112,11 +112,15 @@ img { max-width: 100%; display: block; }
 }
 .nav-links {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 4px;
   justify-content: flex-end;
   margin-left: auto;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
+.nav-links::-webkit-scrollbar { display: none; }
 .nav-links a {
   padding: 6px 10px;
   border-radius: 999px;
@@ -363,6 +367,7 @@ button.btn {
 .metric .l {
   margin-top: 6px;
   font-size: 12px;
+  line-height: 1.35;
   color: var(--muted);
 }
 
@@ -638,19 +643,6 @@ button.btn {
 }
 @media (max-width: 720px) {
   .play-board { grid-template-columns: 1fr; }
-  /* 闭环舞台：绝对定位的 120px 卡片在窄屏会互相压叠，改为规整网格 */
-  .circuit {
-    position: static;
-    min-height: 0;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-  }
-  .circuit-line { display: none; }
-  .circuit-node {
-    position: static;
-    width: auto;
-  }
 }
 .play-pool {
   display: flex;
@@ -936,6 +928,7 @@ button.btn {
   padding: 10px 14px;
   font-weight: 700;
   font-size: 13px;
+  white-space: nowrap;
   cursor: pointer;
   font-family: inherit;
   animation: floatY 3.2s ease-in-out infinite;
@@ -988,7 +981,12 @@ button.btn {
   border-radius: 50%;
   background: #c5d8ee;
 }
-.circuit-node .lab { font-size: 12px; font-weight: 800; color: var(--ink); }
+.circuit-node .lab {
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--ink);
+}
 .circuit-node.active {
   border-color: #2eb7ff;
   box-shadow: 0 0 0 3px rgba(46,183,255,.2), 0 10px 24px rgba(31,111,235,.18);
@@ -1021,6 +1019,21 @@ button.btn {
 .circuit-node.pos-4 { right: 14%; bottom: 0; }
 /* 第 6 环（记忆续接）：落在上排与下排之间的空档，与既有 5 点不重叠 */
 .circuit-node.pos-5 { left: 57%; top: 31%; }
+/* 上面的绝对定位写在媒体查询之后会盖掉窄屏规则，所以网格收在这里 */
+@media (max-width: 720px) {
+  .circuit {
+    position: static;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .circuit-line { display: none; }
+  .circuit-node {
+    position: static;
+    width: auto;
+  }
+}
 
 .ops-panel.win {
   background: linear-gradient(160deg, #0c2340, #0f5132);
@@ -2228,6 +2241,7 @@ html[data-stage='reveal'] .rv-line > span {
 }
 .city-card span {
   font-size: 13px;
+  line-height: 1.35;
   opacity: 0.84;
 }
 .city-card em {

@@ -1,17 +1,19 @@
 import { Link } from 'react-router-dom'
-import { DEMO_VIDEOS, WALKTHROUGH } from '../data/site'
+import { DEMO_VIDEOS, tx, WALKTHROUGH } from '../data/site'
 import { IconPlay, IconVideo } from '../components/Icons'
+import { useLocale } from '../locale'
+import { fill, UI } from '../ui'
 
 export function DemoPage() {
+  const { lang } = useLocale()
+  const copy = UI.demo
+
   return (
     <>
       <header className="page-banner">
         <div className="eyebrow">DEMO</div>
-        <h1>实跑证据</h1>
-        <p>
-          三语实机录屏已抽帧上线：点进「演示」页可切换语种与镜头。完整录屏体积大，站点以截图呈现真实输出，
-          逐段讲解见讲解视频。
-        </p>
+        <h1>{tx(lang, copy.h1)}</h1>
+        <p>{tx(lang, copy.lead)}</p>
       </header>
 
       <div className="grid-cards demo-shot-grid">
@@ -23,10 +25,10 @@ export function DemoPage() {
             <div className="eyebrow">
               <IconVideo size={14} /> {v.label}
             </div>
-            <h3>{v.title}</h3>
-            <p>{v.desc}</p>
-            <div className="scene-tag">{v.scene}</div>
-            <div className="meta">查看截图 →</div>
+            <h3>{tx(lang, v.title)}</h3>
+            <p>{tx(lang, v.desc)}</p>
+            <div className="scene-tag">{tx(lang, v.scene)}</div>
+            <div className="meta">{tx(lang, copy.more)}</div>
           </Link>
         ))}
       </div>
@@ -42,10 +44,10 @@ export function DemoPage() {
           <span className="eyebrow">
             <IconVideo size={14} /> WALKTHROUGH
           </span>
-          <strong>{WALKTHROUGH.title}</strong>
-          <span className="walk-banner-desc">{WALKTHROUGH.desc}</span>
+          <strong>{tx(lang, WALKTHROUGH.title)}</strong>
+          <span className="walk-banner-desc">{tx(lang, WALKTHROUGH.desc)}</span>
           <span className="walk-banner-meta">
-            {WALKTHROUGH.duration} · 共 {WALKTHROUGH.chapters.length} 章 · 点此进入 →
+            {tx(lang, WALKTHROUGH.duration)} · {fill(tx(lang, copy.chapters), { n: WALKTHROUGH.chapters.length })}
           </span>
         </span>
       </Link>

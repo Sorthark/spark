@@ -1,18 +1,23 @@
-import { FEATURES } from '../data/site'
+import { FEATURES, tx } from '../data/site'
+import { useLocale } from '../locale'
+import { UI } from '../ui'
 
 export function FeaturesPage() {
+  const { lang } = useLocale()
+  const copy = UI.features
+
   return (
     <>
       <header className="page-banner">
         <div className="eyebrow">FEATURES</div>
-        <h1>产品功能</h1>
-        <p>从多源资料到可执行补练，服务考前 1–7 天冲刺窗口。</p>
+        <h1>{tx(lang, copy.h1)}</h1>
+        <p>{tx(lang, copy.lead)}</p>
       </header>
       <ul className="list">
         {FEATURES.map((f) => (
-          <li key={f.title}>
-            <strong>{f.title}</strong>
-            <div style={{ marginTop: 6, color: 'var(--muted)', fontSize: 14 }}>{f.desc}</div>
+          <li key={f.title.zh}>
+            <strong>{tx(lang, f.title)}</strong>
+            <div style={{ marginTop: 6, color: 'var(--muted)', fontSize: 14 }}>{tx(lang, f.desc)}</div>
           </li>
         ))}
       </ul>

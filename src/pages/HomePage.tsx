@@ -1,7 +1,8 @@
 import type { CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
-import { AGENT_URL, CHROME, DEMO_VIDEOS, FEATURES, loopChain, METRICS, PAGE_TOTAL, SITE } from '../data/site'
+import { AGENT_URL, CHROME, DEMO_VIDEOS, FEATURES, loopChain, METRICS, PAGE_TOTAL, SITE, tx } from '../data/site'
 import { useLocale } from '../locale'
+import { fill, UI } from '../ui'
 import { DemoWindow } from '../components/DemoWindow'
 import { LoopRail } from '../components/LoopRail'
 import {
@@ -17,13 +18,13 @@ import {
 } from '../components/Icons'
 
 const siteMap = [
-  { to: '/video', label: '演示', Icon: IconVideo },
-  { to: '/play', label: '闯关', Icon: IconPlay },
-  { to: '/features', label: '功能', Icon: IconCpu },
-  { to: '/tech', label: '架构', Icon: IconLayers },
-  { to: '/innovation', label: '创新', Icon: IconSpark },
-  { to: '/business', label: '商业', Icon: IconBiz },
-  { to: '/team', label: '团队', Icon: IconTeam },
+  { to: '/video', label: UI.nav.video, Icon: IconVideo },
+  { to: '/play', label: UI.nav.play, Icon: IconPlay },
+  { to: '/features', label: UI.home.quick.features, Icon: IconCpu },
+  { to: '/tech', label: UI.home.quick.tech, Icon: IconLayers },
+  { to: '/innovation', label: UI.home.quick.innovation, Icon: IconSpark },
+  { to: '/business', label: UI.nav.business, Icon: IconBiz },
+  { to: '/team', label: UI.nav.team, Icon: IconTeam },
 ]
 
 /**
@@ -34,6 +35,8 @@ const delay = (ms: number): CSSProperties => ({ '--d': `${ms}ms` }) as CSSProper
 
 export function HomePage() {
   const { lang } = useLocale()
+  const copy = UI.home
+  const lede = copy.lede[lang]
   const demo = DEMO_VIDEOS.find((item) => item.id === lang) ?? DEMO_VIDEOS[0]
   const shots = demo.shots?.length ? demo.shots : [demo.poster]
 
@@ -54,10 +57,10 @@ export function HomePage() {
             <span className="rv hv-kicker" style={delay(0)}>
               <i className="hv-dot" aria-hidden />
               {SITE.cup}
-              <b className="hv-honor">{SITE.honor}</b>
+              <b className="hv-honor">{tx(lang, UI.honor)}</b>
             </span>
             <span className="rv hv-index" style={delay(80)}>
-              <b>01</b> / {PAGE_TOTAL} · 作品展示站
+              <b>01</b> / {PAGE_TOTAL} · {tx(lang, copy.index)}
             </span>
           </div>
 
@@ -68,7 +71,7 @@ export function HomePage() {
               </h1>
 
               <p className="rv hv-lede" style={delay(430)}>
-                把突击做成<em>闭环</em>——紧扣本人资料，绝不超纲。
+                {lede.before}<em>{lede.em}</em>{lede.after}
               </p>
 
               <p className="rv hv-sub" style={delay(510)}>
@@ -76,18 +79,18 @@ export function HomePage() {
               </p>
 
               <p className="rv hv-byline" style={delay(550)}>
-                队名 {SITE.team} · 三地联合团队（多伦多 · 南通 · 吉隆坡）
+                {tx(lang, copy.teamLabel)} {SITE.team} · {tx(lang, copy.byline)}
               </p>
 
               <div className="rv hv-cta" style={delay(590)}>
                 <a className="btn btn-primary" href={AGENT_URL} target="_blank" rel="noreferrer">
-                  <IconZap size={16} /> 立即体验智能体
+                  <IconZap size={16} /> {tx(lang, copy.try)}
                 </a>
                 <Link className="btn btn-ghost" to="/video">
-                  <IconVideo size={16} /> 三语实机演示
+                  <IconVideo size={16} /> {tx(lang, copy.demo)}
                 </Link>
                 <Link className="btn btn-ghost" to="/video?tab=walk">
-                  <IconFilm size={16} /> 讲解视频
+                  <IconFilm size={16} /> {tx(lang, copy.walk)}
                 </Link>
               </div>
             </div>
@@ -95,8 +98,11 @@ export function HomePage() {
             <div className="rv hv-demo" style={delay(290)}>
               <DemoWindow
                 shots={shots}
-                label="期末速通官 · 实机运行"
-                caption={demo.hint}
+                label={`${SITE.name} · ${tx(lang, copy.window)}`}
+                caption={tx(lang, demo.hint)}
+                live={tx(lang, copy.live)}
+                frameLabel={(n) => fill(tx(lang, copy.frame), { n })}
+                framesLabel={tx(lang, copy.frames)}
               />
             </div>
           </div>
@@ -105,7 +111,7 @@ export function HomePage() {
             {siteMap.map(({ to, label, Icon }) => (
               <Link key={to} to={to}>
                 <Icon size={14} />
-                {label}
+                {tx(lang, label)}
               </Link>
             ))}
           </nav>
@@ -116,14 +122,14 @@ export function HomePage() {
 
       <section className="evidence" aria-label="作品证据">
         <div className="band-head">
-          <h2>跑起来的证据</h2>
-          <p>数字来自参赛作品的实际工作流配置，可在架构页逐项核对。</p>
+          <h2>{tx(lang, copy.evidenceTitle)}</h2>
+          <p>{tx(lang, copy.evidenceLead)}</p>
         </div>
         <div className="metrics">
           {METRICS.map((m) => (
-            <div className="metric" key={m.l}>
+            <div className="metric" key={m.l.zh}>
               <div className="n">{m.n}</div>
-              <div className="l">{m.l}</div>
+              <div className="l">{tx(lang, m.l)}</div>
             </div>
           ))}
         </div>
@@ -131,31 +137,31 @@ export function HomePage() {
 
       <section className="feature-band">
         <div className="band-head">
-          <h2>它替你做的三件事</h2>
+          <h2>{tx(lang, copy.featureTitle)}</h2>
         </div>
         <div className="grid-cards">
           {FEATURES.map((f) => (
-            <Link className="card hover-lift" to="/features" key={f.title}>
-              <h3>{f.title}</h3>
-              <p>{f.desc}</p>
-              <div className="meta">功能详情 →</div>
+            <Link className="card hover-lift" to="/features" key={f.title.zh}>
+              <h3>{tx(lang, f.title)}</h3>
+              <p>{tx(lang, f.desc)}</p>
+              <div className="meta">{tx(lang, copy.featureMore)}</div>
             </Link>
           ))}
         </div>
       </section>
 
       <section className="closing">
-        <h2>想自己跑一遍？</h2>
-        <p>海报二维码指向本站；从这里可以直达星辰 Agent，也可以先玩一轮动态闯关。</p>
+        <h2>{tx(lang, copy.closeTitle)}</h2>
+        <p>{tx(lang, copy.closeLead)}</p>
         <div className="cta-row">
           <a className="btn btn-primary" href={AGENT_URL} target="_blank" rel="noreferrer">
-            <IconZap size={16} /> 进入星辰 Agent
+            <IconZap size={16} /> {tx(lang, copy.openAgent)}
           </a>
           <Link className="btn btn-ghost" to="/play">
-            <IconPlay size={16} /> 先玩动态闯关
+            <IconPlay size={16} /> {tx(lang, copy.playFirst)}
           </Link>
           <Link className="btn btn-ghost" to="/video?tab=walk">
-            <IconFilm size={16} /> 看讲解视频
+            <IconFilm size={16} /> {tx(lang, copy.watchWalk)}
           </Link>
         </div>
       </section>

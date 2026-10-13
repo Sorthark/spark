@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { AGENT_URL, DEMO_VIDEOS, WALKTHROUGH, type DemoLang } from '../data/site'
+import { AGENT_URL, DEMO_VIDEOS, tx, WALKTHROUGH, type DemoLang } from '../data/site'
 import { useLocale } from '../locale'
+import { fill, UI } from '../ui'
 import { IconFilm, IconPlay, IconVideo, IconZap } from '../components/Icons'
 
 type Mode = 'shots' | 'walk'
@@ -22,6 +23,7 @@ export function VideoPage() {
   const mode: Mode = params.get('tab') === 'walk' ? 'walk' : 'shots'
 
   const { lang, setLang } = useLocale()
+  const copy = UI.video
   const [shot, setShot] = useState(0)
 
   const current = DEMO_VIDEOS.find((v) => v.id === lang) ?? DEMO_VIDEOS[0]
@@ -49,13 +51,11 @@ export function VideoPage() {
         <div className="eyebrow">
           <IconVideo size={14} /> DEMO · REAL SHOTS
         </div>
-        <h1>演示与讲解</h1>
-        <p>
-          三语实机录屏抽帧，可按语种与镜头切换查看真实输出；完整讲解则按章节大纲呈现，一次讲完整条闭环。
-        </p>
+        <h1>{tx(lang, copy.h1)}</h1>
+        <p>{tx(lang, copy.lead)}</p>
       </header>
 
-      <div className="vtabs" role="tablist" aria-label="演示类型">
+      <div className="vtabs" role="tablist" aria-label={tx(lang, copy.h1)}>
         <button
           type="button"
           role="tab"
@@ -64,8 +64,8 @@ export function VideoPage() {
           onClick={() => setMode('shots')}
         >
           <IconVideo size={15} />
-          实机演示
-          <span className="tag">三语 · 已上线</span>
+          {tx(lang, copy.shots)}
+          <span className="tag">{tx(lang, copy.shotsTag)}</span>
         </button>
         <button
           type="button"
@@ -75,14 +75,14 @@ export function VideoPage() {
           onClick={() => setMode('walk')}
         >
           <IconFilm size={15} />
-          讲解视频
-          <span className="tag">{WALKTHROUGH.src ? '可播放' : '即将上线'}</span>
+          {tx(lang, copy.walk)}
+          <span className="tag">{WALKTHROUGH.src ? tx(lang, copy.walkReady) : tx(lang, copy.walkSoon)}</span>
         </button>
       </div>
 
       {mode === 'shots' ? (
         <>
-          <div className="lang-tabs" role="tablist" aria-label="演示语种">
+          <div className="lang-tabs" role="tablist" aria-label={tx(lang, copy.langs)}>
             {DEMO_VIDEOS.map((v) => (
               <button
                 key={v.id}
@@ -108,7 +108,7 @@ export function VideoPage() {
                 <source src={current.src} type="video/mp4" />
               </video>
             ) : (
-              <img src={activeShot} alt={`${current.title} 实机截图`} />
+              <img src={activeShot} alt={`${tx(lang, current.title)} ${tx(lang, copy.altShot)}`} />
             )}
           </div>
 
@@ -120,7 +120,7 @@ export function VideoPage() {
                   type="button"
                   className={`shot-thumb ${i === shot ? 'active' : ''}`}
                   onClick={() => setShot(i)}
-                  aria-label={`镜头 ${i + 1}`}
+                  aria-label={fill(tx(lang, copy.shot), { n: i + 1 })}
                 >
                   <img src={src} alt="" />
                 </button>
@@ -130,23 +130,23 @@ export function VideoPage() {
 
           <div className="card" style={{ marginTop: 16 }}>
             <div className="eyebrow">SCENE</div>
-            <h3 style={{ marginTop: 8 }}>{current.title}</h3>
-            <p style={{ marginTop: 8 }}>{current.desc}</p>
+            <h3 style={{ marginTop: 8 }}>{tx(lang, current.title)}</h3>
+            <p style={{ marginTop: 8 }}>{tx(lang, current.desc)}</p>
             <div className="scene-tag" style={{ marginTop: 10 }}>
-              {current.scene}
+              {tx(lang, current.scene)}
             </div>
-            <p style={{ marginTop: 10, color: 'var(--muted)', fontSize: 13 }}>{current.hint}</p>
+            <p style={{ marginTop: 10, color: 'var(--muted)', fontSize: 13 }}>{tx(lang, current.hint)}</p>
           </div>
 
           <div className="cta-row" style={{ marginTop: 20 }}>
             <a className="btn btn-ghost" href={activeShot} target="_blank" rel="noreferrer">
-              新窗口打开截图
+              {tx(lang, copy.openShot)}
             </a>
             <Link className="btn btn-ghost" to="/play">
-              动态闯关
+              {tx(lang, copy.toPlay)}
             </Link>
             <button type="button" className="btn btn-primary" onClick={() => setMode('walk')}>
-              <IconFilm size={16} /> 切到讲解视频
+              <IconFilm size={16} /> {tx(lang, copy.toWalk)}
             </button>
           </div>
         </>
@@ -170,13 +170,11 @@ export function VideoPage() {
                   <span className="walk-play">
                     <IconPlay size={26} />
                   </span>
-                  <strong>{WALKTHROUGH.title}</strong>
+                  <strong>{tx(lang, WALKTHROUGH.title)}</strong>
                   <span className="walk-hold-sub">
-                    {WALKTHROUGH.duration} · 讲解片制作中，接入后此处直接播放
+                    {tx(lang, WALKTHROUGH.duration)} · {tx(lang, WALKTHROUGH.hold)}
                   </span>
-                  <span className="walk-hold-note">
-                    下方章节大纲已按最终结构排好，可先按大纲对照实机截图查看。
-                  </span>
+                  <span className="walk-hold-note">{tx(lang, WALKTHROUGH.holdNote)}</span>
                 </div>
               </div>
             )}
@@ -185,12 +183,12 @@ export function VideoPage() {
           <div className="walk-meta">
             <div>
               <div className="eyebrow">WALKTHROUGH</div>
-              <h3 style={{ marginTop: 8 }}>{WALKTHROUGH.title}</h3>
-              <p style={{ marginTop: 8, color: 'var(--muted)' }}>{WALKTHROUGH.desc}</p>
+              <h3 style={{ marginTop: 8 }}>{tx(lang, WALKTHROUGH.title)}</h3>
+              <p style={{ marginTop: 8, color: 'var(--muted)' }}>{tx(lang, WALKTHROUGH.desc)}</p>
             </div>
             <div className="walk-badge">
-              <b>{WALKTHROUGH.duration}</b>
-              <span>{WALKTHROUGH.chapters.length} 章 · 中文</span>
+              <b>{tx(lang, WALKTHROUGH.duration)}</b>
+              <span>{fill(tx(lang, copy.chapters), { n: WALKTHROUGH.chapters.length })}</span>
             </div>
           </div>
 
@@ -199,8 +197,8 @@ export function VideoPage() {
               <li key={c.n}>
                 <span className="wc-n">{c.n}</span>
                 <span className="wc-body">
-                  <strong>{c.t}</strong>
-                  <span>{c.desc}</span>
+                  <strong>{tx(lang, c.t)}</strong>
+                  <span>{tx(lang, c.desc)}</span>
                 </span>
               </li>
             ))}
@@ -208,10 +206,10 @@ export function VideoPage() {
 
           <div className="cta-row" style={{ marginTop: 20 }}>
             <a className="btn btn-primary" href={AGENT_URL} target="_blank" rel="noreferrer">
-              <IconZap size={16} /> 直接体验智能体
+              <IconZap size={16} /> {tx(lang, copy.try)}
             </a>
             <Link className="btn btn-ghost" to="/demo">
-              看实机取证截图
+              {tx(lang, copy.toDemo)}
             </Link>
           </div>
         </>

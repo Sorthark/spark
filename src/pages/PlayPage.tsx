@@ -1,18 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { AGENT_URL, LOOP_CHAIN_EN, LOOP_CN, PLAY_CARDS, PLAY_ORDER } from '../data/site'
+import { AGENT_URL, LOOP_STEPS, PLAY_ORDER, loopChain, stepTitle, tx } from '../data/site'
+import { useLocale } from '../locale'
+import { fill, UI } from '../ui'
 import { IconCpu, IconPlay, IconZap } from '../components/Icons'
 
 type Phase = 'boot' | 'swarm' | 'link' | 'win'
 
-/** 五大痛点 · 口径对齐答辩稿 V6 第 03 页（资料分散 / 重点不明 / 缺少诊断 / 无法续接 / 语言障碍） */
-const PAINS = [
-  { id: 'scatter', label: '资料分散' },
-  { id: 'priority', label: '重点不明' },
-  { id: 'nodiag', label: '缺少诊断' },
-  { id: 'resume', label: '无法续接' },
-  { id: 'lang', label: '语言障碍' },
-]
+/** 五大痛点 · 口径对齐答辩稿 V6 第 03 页 */
+const PAINS = UI.play.pains
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr]
@@ -44,11 +40,13 @@ function Confetti() {
 }
 
 export function PlayPage() {
+  const { lang } = useLocale()
+  const copy = UI.play
   const [phase, setPhase] = useState<Phase>('boot')
   const [bootPct, setBootPct] = useState(0)
   const [caught, setCaught] = useState<string[]>([])
   const [swarmLeft, setSwarmLeft] = useState(12)
-  const [nodes, setNodes] = useState(() => shuffle(PLAY_CARDS))
+  const [nodes, setNodes] = useState(() => shuffle(LOOP_STEPS.map((s) => s.id)))
   const [nextIdx, setNextIdx] = useState(0)
   const [pulseId, setPulseId] = useState<string | null>(null)
   const [combo, setCombo] = useState(0)
@@ -138,7 +136,7 @@ export function PlayPage() {
     setPhase('boot')
     setBootPct(0)
     setCaught([])
-    setNodes(shuffle(PLAY_CARDS))
+    setNodes(shuffle(LOOP_STEPS.map((s) => s.id)))
     setNextIdx(0)
     setPulseId(null)
     setCombo(0)
@@ -151,8 +149,8 @@ export function PlayPage() {
         <div className="eyebrow">
           <IconPlay size={14} /> PLAY · DYNAMIC OPS
         </div>
-        <h1>考前急救指挥台</h1>
-        <p>三阶段动态关卡：系统启动 → 捕获痛点 → 点亮闭环链路。通关解锁星辰 Agent。</p>
+        <h1>{tx(lang, copy.h1)}</h1>
+        <p>{tx(lang, copy.lead)}</p>
       </header>
 
       <div className="hud">
@@ -185,8 +183,8 @@ export function PlayPage() {
           </div>
           <div>
             <div className="eyebrow">SYSTEM INIT</div>
-            <h2>正在装载课程资料通道…</h2>
-            <p className="muted">{LOOP_CHAIN_EN}</p>
+            <h2>{tx(lang, copy.boot)}</h2>
+            <p className="muted">{loopChain(lang)}</p>
             <div className="boot-bar">
               <i style={{ width: `${bootPct}%` }} />
             </div>
@@ -200,7 +198,7 @@ export function PlayPage() {
           <div className="swarm-head">
             <div>
               <div className="eyebrow">TARGET LOCK</div>
-              <h2>点掉飘动的痛点（至少 3 个）</h2>
+              <h2>{tx(lang, copy.swarm)}</h2>
             </div>
             <div className="timer-ring" data-low={swarmLeft <= 4}>
               {swarmLeft}s
@@ -215,41 +213,46 @@ export function PlayPage() {
                 onClick={() => catchPain(p.id)}
                 disabled={caught.includes(p.id)}
               >
-                {p.label}
+                {tx(lang, p.label)}
               </button>
             ))}
             <div className="scanline" aria-hidden />
           </div>
-          <p className="muted">已捕获 {caught.length}/3 · Combo ×{combo}</p>
+          <p className="muted">{fill(tx(lang, copy.caught), { n: caught.length, c: combo })}</p>
         </section>
       )}
 
       {phase === 'link' && (
         <section className="ops-panel link">
           <div className="eyebrow">CIRCUIT LINK</div>
-          <h2>按闭环顺序点亮节点</h2>
-          <p className="muted">下一目标：{PLAY_CARDS.find((c) => c.id === PLAY_ORDER[nextIdx])?.label}</p>
+          <h2>{tx(lang, copy.link)}</h2>
+          <p className="muted">
+            {fill(tx(lang, copy.next), {
+              name: stepTitle(LOOP_STEPS.find((s) => s.id === PLAY_ORDER[nextIdx]) ?? LOOP_STEPS[0], lang),
+            })}
+          </p>
           <div className="circuit">
             <div className="circuit-line" aria-hidden />
-            {nodes.map((n, i) => {
-              const done = PLAY_ORDER.indexOf(n.id) < nextIdx
-              const active = PLAY_ORDER[nextIdx] === n.id
+            {nodes.map((id, i) => {
+              const done = PLAY_ORDER.indexOf(id) < nextIdx
+              const active = PLAY_ORDER[nextIdx] === id
+              const step = LOOP_STEPS.find((s) => s.id === id) ?? LOOP_STEPS[0]
               return (
                 <button
-                  key={n.id}
+                  key={id}
                   type="button"
                   className={`circuit-node pos-${i} ${done ? 'done' : ''} ${active ? 'active' : ''} ${
-                    pulseId === n.id ? (miss ? 'shake' : 'pulse') : ''
+                    pulseId === id ? (miss ? 'shake' : 'pulse') : ''
                   }`}
-                  onClick={() => hitNode(n.id)}
+                  onClick={() => hitNode(id)}
                 >
                   <span className="dot" />
-                  <span className="lab">{n.label}</span>
+                  <span className="lab">{stepTitle(step, lang)}</span>
                 </button>
               )
             })}
           </div>
-          {miss && <p className="play-msg bad">链路错误，连击清空。按正确顺序重试。</p>}
+          {miss && <p className="play-msg bad">{tx(lang, copy.miss)}</p>}
         </section>
       )}
 
@@ -257,17 +260,17 @@ export function PlayPage() {
         <section className="ops-panel win">
           <Confetti />
           <div className="eyebrow">MISSION COMPLETE</div>
-          <h2>闭环已点亮 · 可以上真机</h2>
-          <p>痛点已锁定，{LOOP_CN}环节链路已连通。把本人资料丢进星辰 Agent，跑同一套闭环。</p>
+          <h2>{tx(lang, copy.win)}</h2>
+          <p>{tx(lang, copy.winLead)}</p>
           <div className="cta-row">
             <a className="btn btn-primary" href={AGENT_URL} target="_blank" rel="noreferrer">
-              <IconZap size={16} /> 打开星辰 Agent
+              <IconZap size={16} /> {tx(lang, UI.try.open)}
             </a>
             <Link className="btn btn-ghost" to="/try">
-              体验页说明
+              {tx(lang, copy.about)}
             </Link>
             <button type="button" className="btn btn-ghost" onClick={restart}>
-              再玩一轮
+              {tx(lang, copy.again)}
             </button>
           </div>
         </section>

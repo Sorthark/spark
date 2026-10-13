@@ -1,19 +1,24 @@
-import { INNOVATIONS } from '../data/site'
+import { INNOVATIONS, tx } from '../data/site'
+import { useLocale } from '../locale'
+import { UI } from '../ui'
 
 export function InnovationPage() {
+  const { lang } = useLocale()
+  const copy = UI.innovation
+
   return (
     <>
       <header className="page-banner">
         <div className="eyebrow">INNOVATION</div>
-        <h1>创新点</h1>
-        <p>围绕复习决策：资料依据、时间预算、诊断反馈与跨轮次状态。</p>
+        <h1>{tx(lang, copy.h1)}</h1>
+        <p>{tx(lang, copy.lead)}</p>
       </header>
       <div className="grid-cards">
         {INNOVATIONS.map((it, i) => (
-          <article className="card" key={it.title}>
+          <article className="card" key={it.title.zh}>
             <div className="eyebrow">0{i + 1}</div>
-            <h3 style={{ marginTop: 8 }}>{it.title}</h3>
-            <p>{it.desc}</p>
+            <h3 style={{ marginTop: 8 }}>{tx(lang, it.title)}</h3>
+            <p>{tx(lang, it.desc)}</p>
           </article>
         ))}
       </div>
