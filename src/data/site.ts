@@ -394,10 +394,10 @@ export const DEMO_VIDEOS: DemoVideo[] = [
       en: 'Big Data (enough notes) · Media Ethics, target 80, 3 days left (thin notes)',
       ms: 'Big Data (bahan cukup) · Etika Media, sasaran 80, 3 hari lagi (bahan kurang)',
     },
-    src: asset('media/demo-zh.mp4'),
+    src: '',
     poster: asset('demo/zh.jpg'),
     shots: [asset('demo/zh-1.jpg'), asset('demo/zh-2.jpg'), asset('demo/zh-3.jpg')],
-    hint: { zh: '完整实机录屏 · 中文场景，下方仍可对照抽帧', en: 'Full live recording · Chinese. Frames below.', ms: 'Rakaman penuh · Cina. Bingkai di bawah.' },
+    hint: { zh: '实机录屏抽帧 · 中文场景', en: 'Live frames · Chinese', ms: 'Bingkai langsung · Cina' },
   },
   {
     id: 'en',
@@ -413,10 +413,10 @@ export const DEMO_VIDEOS: DemoVideo[] = [
       en: 'Intro to Entrepreneurship, Chapter 1 · bilingual summary',
       ms: 'Pengenalan Keusahawanan, Bab 1 · ringkasan dwibahasa',
     },
-    src: asset('media/demo-en.mp4'),
+    src: '',
     poster: asset('demo/en.jpg'),
     shots: [asset('demo/en-1.jpg'), asset('demo/en-2.jpg'), asset('demo/en-3.jpg')],
-    hint: { zh: '完整实机录屏 · 英文场景，下方仍可对照抽帧', en: 'Full live recording · English. Frames below.', ms: 'Rakaman penuh · Inggeris. Bingkai di bawah.' },
+    hint: { zh: '实机录屏抽帧 · 英文场景', en: 'Live frames · English', ms: 'Bingkai langsung · Inggeris' },
   },
   {
     id: 'ms',
@@ -440,84 +440,109 @@ export const DEMO_VIDEOS: DemoVideo[] = [
 ]
 
 /**
- * 讲解视频：位置已预留。
- * 把 mp4 放进 public/media/ 并把路径填到 src，页面自动从「预留位」切换为就地播放。
+ * 讲解视频：八页口播片，不是实机录屏。
+ * srcByLang 留空的语种继续显示预留位。路径相对 public/。
  */
 export const WALKTHROUGH = {
   title: {
-    zh: '讲解视频 · 一镜到底走一遍闭环',
-    en: 'Walkthrough · one pass through the loop',
-    ms: 'Video jelajah · satu pusingan kitaran',
+    zh: '讲解视频 · 八页讲完一轮复习',
+    en: 'Walkthrough · eight slides, one review',
+    ms: 'Video jelajah · lapan slaid, satu ulang kaji',
   },
   desc: {
-    zh: `从痛点定位到实机取证，一段片子讲完${LOOP_CN}环节闭环、技术架构与差异化。`,
-    en: 'From the pain to the live evidence: the loop, the architecture, and what is different.',
-    ms: 'Dari masalah ke bukti langsung: kitaran, seni bina, dan perbezaannya.',
+    zh: '从「先学什么」讲到按时间取舍、诊断补练、跨轮续接，以及中英马来语走同一条流程。',
+    en: 'From where to start, through time, a five-question check, and what carries into the next round.',
+    ms: 'Dari mana hendak bermula, ikut baki masa, semakan lima soalan, dan apa yang dibawa ke pusingan seterusnya.',
   },
-  /** 留空 = 显示预留位；填入相对路径（如 'media/walkthrough-zh.mp4'）即自动就地播放 */
-  src: '',
-  /** 封面底图（接入后作为视频 poster） */
+  srcByLang: {
+    zh: 'media/walkthrough-zh.mp4',
+    en: 'media/walkthrough-en.mp4',
+    ms: '',
+  } as Record<SiteLang, string>,
+  /** 封面底图 */
   poster: asset('demo/zh.jpg'),
-  duration: { zh: '约 3 分钟', en: 'About 3 min', ms: 'Kira-kira 3 min' },
+  duration: { zh: '约 2 分钟', en: 'About 2 min', ms: 'Kira-kira 2 min' },
   hold: {
-    zh: '讲解片制作中，接入后此处直接播放',
-    en: 'The film is in production. It will play here once it is in.',
-    ms: 'Video masih dibuat. Ia akan dimainkan di sini selepas siap.',
+    zh: '这一语种的讲解片还没有',
+    en: 'No walkthrough in this language yet',
+    ms: 'Video bahasa ini belum ada',
   },
   holdNote: {
-    zh: '下方章节大纲已按最终结构排好，可先按大纲对照实机截图查看。',
-    en: 'The chapter list below is final. Match it against the live frames for now.',
-    ms: 'Senarai bab di bawah sudah muktamad. Buat masa ini, padankan dengan bingkai langsung.',
+    zh: '中文和英文讲解片已可播放。切到对应语言即可。',
+    en: 'Chinese and English films are ready. Switch the site language to play one.',
+    ms: 'Video Cina dan Inggeris sudah sedia. Tukar bahasa laman untuk menonton.',
   },
   chapters: [
     {
       n: '01',
-      t: { zh: '痛点与定位', en: 'The gap', ms: 'Jurang' },
+      t: { zh: '先学什么', en: 'Where to start', ms: 'Dari mana' },
       desc: {
-        zh: '考前一周缺的不是资料，而是复习决策与反馈。',
-        en: 'The week before an exam, the missing piece is a decision and feedback, not more notes.',
-        ms: 'Seminggu sebelum peperiksaan, yang kurang ialah keputusan dan maklum balas, bukan lagi nota.',
+        zh: '资料越堆越多，坐下来仍不知道先学哪一页。',
+        en: 'The pile grows, and half an hour later you still have not started.',
+        ms: 'Bahan bertambah, setengah jam kemudian masih belum bermula.',
       },
     },
     {
       n: '02',
-      t: { zh: `${LOOP_CN}环节闭环`, en: 'Six-stage loop', ms: 'Kitaran enam peringkat' },
-      desc: { zh: `${LOOP_CHAIN}。`, en: `${loopChain('en')}.`, ms: `${loopChain('ms')}.` },
+      t: { zh: '从这门课开始', en: 'Start from this course', ms: 'Mula dari kursus ini' },
+      desc: {
+        zh: '输入只有四样：课程、距考时间、学习目标、笔记和图片。',
+        en: 'Four inputs: the course, days left, the goal, and your notes or images.',
+        ms: 'Empat input: kursus, baki hari, matlamat, serta nota atau imej.',
+      },
     },
     {
       n: '03',
-      t: { zh: '实机取证', en: 'Live evidence', ms: 'Bukti langsung' },
+      t: { zh: '按时间取舍', en: 'Scope follows the days left', ms: 'Skop ikut baki hari' },
       desc: {
-        zh: '资料充足 / 资料不足两种场景现场跑一遍，记录真实输出。',
-        en: 'Two live runs: enough material, and not enough. The output is the real one.',
-        ms: 'Dua larian langsung: bahan cukup, dan bahan kurang. Output ialah yang sebenar.',
+        zh: '剩一天只保重点，两三天兼顾常考，四天以上才展开框架。资料不够会提示补充。',
+        en: 'One day keeps the core, two or three add the common topics, four or more open the frame.',
+        ms: 'Sehari kekal teras, dua tiga hari tambah biasa, empat hari ke atas buka rangka.',
       },
     },
     {
       n: '04',
-      t: { zh: '技术架构', en: 'Architecture', ms: 'Seni bina' },
+      t: { zh: '看懂后再检查', en: 'Then a short check', ms: 'Kemudian semakan ringkas' },
       desc: {
-        zh: '29 节点、29 条连接边：6 个模型节点 + 8 个代码节点 + 长期记忆。',
-        en: '29 nodes and 29 links: 6 model nodes, 8 code nodes, and long-term memory.',
-        ms: '29 nod dan 29 pautan: 6 nod model, 8 nod kod, dan ingatan jangka panjang.',
+        zh: '关联薄弱考点、分析错因，并给出 15 分钟补练。',
+        en: 'Weak points and miss reasons lead to a 15-minute drill.',
+        ms: 'Titik lemah dan sebab silap membawa latih tubi 15 minit.',
       },
     },
     {
       n: '05',
-      t: { zh: '差异化创新', en: 'What is different', ms: 'Apa bezanya' },
+      t: { zh: '下次接着练', en: 'The next round continues', ms: 'Pusingan seterusnya sambung' },
       desc: {
-        zh: '闭环 / 自适应 / 多语言 / 长期记忆四项设计如何对应真实痛点。',
-        en: 'How the loop, the time scope, three languages, and memory map onto the real gap.',
-        ms: 'Bagaimana kitaran, skop masa, tiga bahasa dan ingatan memetakan jurang sebenar.',
+        zh: '本轮记下薄弱考点，同一门课下次优先补还没掌握的。',
+        en: 'Weak points are kept, and the same course picks them up first next time.',
+        ms: 'Titik lemah disimpan, kursus yang sama sambung dahulu lain kali.',
       },
     },
     {
       n: '06',
-      t: { zh: '团队与规划', en: 'Team and what is next', ms: 'Pasukan dan seterusnya' },
+      t: { zh: '三种语言', en: 'Three languages', ms: 'Tiga bahasa' },
       desc: {
-        zh: '三地联合团队，以及后续迭代与服务分层计划。',
-        en: 'A three-city team, and the next iteration of the service layers.',
-        ms: 'Pasukan tiga bandar, dan lapisan perkhidmatan seterusnya.',
+        zh: '中文、英文、马来语进入同一套复习流程。',
+        en: 'Chinese, English, and Malay enter the same review path.',
+        ms: 'Cina, Inggeris dan Melayu masuk laluan ulang kaji yang sama.',
+      },
+    },
+    {
+      n: '07',
+      t: { zh: '往后怎么接', en: 'What comes next', ms: 'Apa seterusnya' },
+      desc: {
+        zh: '把课程笔记和复习资料连到讲解、例题和练习。',
+        en: 'Notes and review materials connect to explanations, examples, and practice.',
+        ms: 'Nota dan bahan ulang kaji bersambung ke penerangan, contoh dan latihan.',
+      },
+    },
+    {
+      n: '08',
+      t: { zh: '从手里的课开始', en: 'Start with the course you have', ms: 'Mula dengan kursus di tangan' },
+      desc: {
+        zh: '每一次期末复习都有一条清晰的路径。',
+        en: 'Each exam review gets a clear path.',
+        ms: 'Setiap ulang kaji peperiksaan ada laluan yang jelas.',
       },
     },
   ],

@@ -7,16 +7,17 @@ import { IconFilm, IconPlay, IconVideo, IconZap } from '../components/Icons'
 
 type Mode = 'shots' | 'walk'
 
-/** 讲解视频地址：site.ts 里填相对路径（如 media/walkthrough-zh.mp4），这里补上部署 base */
-const walkSrc = WALKTHROUGH.src
-  ? `${import.meta.env.BASE_URL}${WALKTHROUGH.src.replace(/^\//, '')}`
-  : ''
+/** 讲解片按当前语种取。site.ts 里 srcByLang 留空则该语种仍是预留位。 */
+function walkFile(lang: DemoLang) {
+  const rel = WALKTHROUGH.srcByLang[lang]
+  if (!rel) return ''
+  return `${import.meta.env.BASE_URL}${rel.replace(/^\//, '')}`
+}
 
 /**
  * 演示页双标签：
- *  · 实机演示 —— 三语实机录屏抽帧，可按语种 / 镜头切换
- *  · 讲解视频 —— 位置已预留：把 mp4 放进 public/media/ 并填 site.ts 的 WALKTHROUGH.src
- *                页面会自动从「预留位」切换成就地播放（无需改本文件）
+ *  · 实机演示 —— 三语实机录屏抽帧
+ *  · 讲解视频 —— 中英文八页口播片；马来语仍是预留位
  */
 export function VideoPage() {
   const [params, setParams] = useSearchParams()
@@ -25,6 +26,7 @@ export function VideoPage() {
   const { lang, setLang } = useLocale()
   const copy = UI.video
   const [shot, setShot] = useState(0)
+  const walkSrc = walkFile(lang)
 
   const current = DEMO_VIDEOS.find((v) => v.id === lang) ?? DEMO_VIDEOS[0]
   const gallery = current.shots?.length ? current.shots : [current.poster]
@@ -76,7 +78,7 @@ export function VideoPage() {
         >
           <IconFilm size={15} />
           {tx(lang, copy.walk)}
-          <span className="tag">{WALKTHROUGH.src ? tx(lang, copy.walkReady) : tx(lang, copy.walkSoon)}</span>
+          <span className="tag">{walkSrc ? tx(lang, copy.walkReady) : tx(lang, copy.walkSoon)}</span>
         </button>
       </div>
 
@@ -152,7 +154,7 @@ export function VideoPage() {
         </>
       ) : (
         <>
-          <div className="video-stage walk" data-ready={Boolean(WALKTHROUGH.src)}>
+          <div className="video-stage walk" data-ready={Boolean(walkSrc)}>
             {walkSrc ? (
               <video
                 controls
